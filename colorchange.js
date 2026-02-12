@@ -6,7 +6,6 @@ const GridBox = () => {
 
   return (
     <TouchableOpacity 
-      // 2. SHORTCUT: Use an array [] to mix static styles with dynamic styles
       style={[styles.grids, { backgroundColor: isPressed ? 'blue' : 'red' }]} 
       onPress={() => setIsPressed(!isPressed)}
     >
