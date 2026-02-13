@@ -1,55 +1,65 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
-
-
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
 export default function App() {
-  const [entry, setEntry] = useState({
+  const [entry, setEntry] = useState ({
     playerID: '',
-    playName: '',
+    playerName: '',
     rank: '',
-  });
-  const [submitPlayer, setSubmitPlayer] = useState(null);
+    quote: '',
+  })
+  const [playerSubmit, setPlayerSubmit] = useState(null);
 
-  const handleInput = (id, text) => {
-    setEntry({...entry, [id]: text});
+  const handleInput = (id, data) => {
+    setEntry({...entry, [id]: data})
   }
-  const handSubmission = () => {
-    setSubmitPlayer(entry);
+  const handleSubmissions = () => {
+    setPlayerSubmit(entry);
   }
+
+  const maxQuote = 20;
+  const curQuote = entry.quote.length;
   return (
     <SafeAreaView>
-    <View style={styles.container}>
-      <TextInput 
-        style={styles.paragraph}
-        placeholder="ID: "
-        value={entry.playerID}
-        onChangeText={(data) => handleInput('playerID', data)}
-      />
-      <TextInput 
-        style={styles.paragraph}
-        placeholder="Name: "
-        value={entry.playName}
-        onChangeText={(data) => handleInput('playName', data)}
-      />
-      <TextInput 
-        style={styles.paragraph}
-        placeholder="Rank: "
-        value={entry.rank}
-        onChangeText={(data) => handleInput('rank', data)}
-      />
-      <Button 
-        title="Submit"
-        onPress={handSubmission}
-      />
-    </View>
-    {submitPlayer && (
-      <View>
-      <Text>Player ID: {entry.playerID} </Text>
-      <Text>Player Name: {entry.playName} </Text>
-      <Text>Player Rank: {entry.rank} </Text>
+      <View style={styles.container}>
+          <TextInput 
+          style={styles.paragraph}
+          placeholder="ID:"
+          value={entry.playerID}
+          onChangeText={(t) => handleInput('playerID', t)}
+          />
+          <TextInput 
+          style={styles.paragraph}
+          placeholder="Name:"
+          value={entry.playerName}
+          onChangeText={(t) => handleInput('playerName', t)}
+          />
+          <TextInput 
+          style={styles.paragraph}
+          placeholder="Rank:"
+          value={entry.rank}
+          onChangeText={(t) => handleInput('rank', t)}
+          />
+          <TextInput 
+          style={styles.paragraph}
+          placeholder="Quote:"
+          value={entry.quote}
+          onChangeText={(t) => handleInput('quote', t)}
+          />
+          <Text style={styles.paragraph}>Current Characters: {curQuote} / {maxQuote} </Text>
+          <Button 
+          title="Submit"
+          onPress={handleSubmissions}
+          />
       </View>
-    )}
+
+      {playerSubmit && (
+        <View>
+        <Text>Player ID: {entry.playerID} </Text>
+        <Text>Player Name: {entry.playerName} </Text>
+        <Text>Player Rank: {entry.rank} </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
