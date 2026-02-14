@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Button } from 'react-native';
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
+export default function App() {
+    const [count, setCount] = useState(0);
 
+    const incrementBy1 = () => {
+      setCount(count + 1);
+    };
+    const incrementBy2 = () => {
+      setCount(count + 2);
+    };
+    const resetButton = () => {
+      setCount(0);
+    };
   return (
-    <View style={styles.container}>
-      <Text style={styles.counterText}>Count: {count}</Text>
-      
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.btn} onPress={() => setCount(count - 1)}>
-          <Text style={styles.btnText}>-</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.btn} onPress={() => setCount(count + 1)}>
-          <Text style={styles.btnText}>+</Text>
-        </TouchableOpacity>
+    <SafeAreaView>
+      <View>
+        <Text>Count: {count}</Text>
+          <Button 
+            title="Increment by 1"
+            onPress={() => incrementBy1(count)}
+          />
+          <Button
+            title="Increment by 2"
+            onPress={() => incrementBy2(count)}
+          />
+          <Button
+            title="Reset"
+            onPress={() => resetButton(count)}
+          />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
