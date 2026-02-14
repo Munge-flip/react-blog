@@ -20,8 +20,8 @@ export default function App() {
   const maxChar = 150;
   const curChar = formData.bio.length;
   const isEmailValid = formData.email.includes("@");
-  const isFormEmpty = formData.name === '' || formData.email === '' || formData.password === '';
-  const canSubmit = isEmailValid && !isFormEmpty;
+  const isFormEmpty = formData.name !== '' && formData.email !== '' && formData.password !== '';
+  const canSubmit = isEmailValid && isFormEmpty;
   return (
     <SafeAreaView>
       <View style={styles.container}>
