@@ -2,62 +2,68 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
 
 export default function App() {
-  const [entry, setEntry] = useState ({
+  const [playerEntry, setPlayerEntry] = useState ({
     playerID: '',
-    playerName: '',
-    rank: '',
-    quote: '',
+    playerIGN: '',
+    playerRank: '',
+    playerTeam: '',
   })
   const [playerSubmit, setPlayerSubmit] = useState(null);
 
-  const handleInput = (id, data) => {
-    setEntry({...entry, [id]: data})
+  const handlePlayerInput = (id, data) => {
+    setPlayerEntry({...playerEntry, [id]: data})
   }
-  const handleSubmissions = () => {
-    setPlayerSubmit(entry);
+  const handlePlayerSubmission = () => {
+    setPlayerSubmit(playerEntry);
   }
 
-  const maxQuote = 20;
-  const curQuote = entry.quote.length;
+  const isIDValid = /^[0-9]+$/.test(playerEntry.playerID);
+  const isRankValid = /^[0-9]+$/.test(playerEntry.playerRank);
+  const isFormEmpty = playerEntry.playerID !== '' && playerEntry.playerIGN !== '' && playerEntry.playerRank !== '' && playerEntry.playerTeam !== '';
+  const canSubmit = isRankValid && isFormEmpty && isIDValid;
   return (
     <SafeAreaView>
       <View style={styles.container}>
-          <TextInput 
-          style={styles.paragraph}
-          placeholder="ID:"
-          value={entry.playerID}
-          onChangeText={(t) => handleInput('playerID', t)}
-          />
-          <TextInput 
-          style={styles.paragraph}
-          placeholder="Name:"
-          value={entry.playerName}
-          onChangeText={(t) => handleInput('playerName', t)}
-          />
-          <TextInput 
-          style={styles.paragraph}
-          placeholder="Rank:"
-          value={entry.rank}
-          onChangeText={(t) => handleInput('rank', t)}
-          />
-          <TextInput 
-          style={styles.paragraph}
-          placeholder="Quote:"
-          value={entry.quote}
-          onChangeText={(t) => handleInput('quote', t)}
-          />
-          <Text style={styles.paragraph}>Current Characters: {curQuote} / {maxQuote} </Text>
-          <Button 
+        <TextInput style={styles.paragraph} 
+          placeholder="ID: "
+          value={playerEntry.playerID}
+          onChangeText={(t) => handlePlayerInput('playerID', t)}
+        />
+        {!isIDValid && playerEntry.playerID.length > 0 && (
+          <Text>Enter a Valid ID</Text>
+        )}
+        <TextInput style={styles.paragraph} 
+          placeholder="IGN: "
+          value={playerEntry.playerIGN}
+          onChangeText={(t) => handlePlayerInput('playerIGN', t)}
+        />
+        <TextInput style={styles.paragraph} 
+          placeholder="Rank: "
+          value={playerEntry.playerRank}
+          onChangeText={(t) => handlePlayerInput('playerRank', t)}
+        />
+        {!isRankValid && playerEntry.playerRank.length > 0 && (
+          <Text>Enter a Valid rank</Text>
+        )}
+        <TextInput style={styles.paragraph} 
+          placeholder="Team: "
+          value={playerEntry.playerTeam}
+          onChangeText={(t) => handlePlayerInput('playerTeam', t)}
+        />
+        <Button 
           title="Submit"
-          onPress={handleSubmissions}
-          />
+          onPress={handlePlayerSubmission}
+          disabled={!canSubmit}
+        />
       </View>
 
       {playerSubmit && (
-        <View>
-        <Text>Player ID: {entry.playerID} </Text>
-        <Text>Player Name: {entry.playerName} </Text>
-        <Text>Player Rank: {entry.rank} </Text>
+        <View style={styles.container}>
+          <Text style={styles.paragraph}>Welcome</Text>
+          <Text style={styles.paragraph}>ID: {playerEntry.playerID} </Text>
+          <Text style={styles.paragraph}>IGN: {playerEntry.playerIGN} </Text>
+          <Text style={styles.paragraph}>Rank: {playerEntry.playerRank} </Text>
+          <Text style={styles.paragraph}>Team: {playerEntry.playerTeam} </Text>
         </View>
       )}
     </SafeAreaView>
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   paragraph: {
-    margin: 24,
+    margin: 5,
     fontSize: 18,
     fontWeight: 'bold',
   },
