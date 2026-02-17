@@ -1,54 +1,61 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput } from 'react-native';
+
 
 export default function App() {
-  const [userData, setUserData] = useState({
-    username: '',
-    password: ''
-  })
-  const [userSubmit, setUserSubmit] = useState(null);
+const [userData, setUserData] = useState ({
+  username: '',
+  password: ''
+})
+const [userSubmit, setUserSubmit] = useState(null);
 
-  const handleUserInputs = (id, data) => {
-    setUserData({...userData, [id]: data})
-  }
-  const handleUserSubmissions = () => {
-    setUserSubmit(userData);
-  }
-  const isUsernameValid = /\d/.test(userData.username) && userData.username.length >= 8;
-  const isPasswordValid = /\d/.test(userData.password) && userData.password.length >= 8;
-  const isFormFilled = userData.username !== '' && userData.password !== '';
-  const canSubmit = isFormFilled && isUsernameValid && isPasswordValid;
+const handleUserInput = (id, info) => {
+  setUserData({...userData, [id]: info})
+}
+const handleUserSubmission = () => {
+  setUserSubmit(userData);
+}
+
+const isUsernameValid = userData.username.length >= 8;
+const isPasswordValid = userData.password.length >= 8;
+const isFormFilled = userData.username !== '' && userData.password !== '';
+const canSubmit = isUsernameValid && isPasswordValid && isFormFilled
+
   return (
     <SafeAreaView>
+    {!userSubmit && (
       <View style={styles.container}>
         <TextInput style={styles.paragraph}
           placeholder="Username: "
           value={userData.username}
-          onChangeText={(t) => handleUserInputs('username', t)}
+          onChangeText={(t) => handleUserInput('username', t)}
         />
         {!isUsernameValid && userData.username.length > 0 && (
-          <Text>Username needs to be minimum of 8 characters and has atleast 1 number in it</Text>
+          <Text>Minimun characters is 8</Text>
         )}
         <TextInput style={styles.paragraph}
           placeholder="Password: "
           value={userData.password}
-          onChangeText={(t) => handleUserInputs('password', t)}
+          onChangeText={(t) => handleUserInput('password', t)}
         />
         {!isPasswordValid && userData.password.length > 0 && (
-          <Text>Username needs to be minimum of 8 characters and has atleast 1 number in it</Text>
+          <Text>Minimun characters is 8</Text>
         )}
         <Button 
-        title="Register"
-        onPress={handleUserSubmissions}
+        title="Submit"
+        onPress={handleUserSubmission}
         disabled={!canSubmit}
         />
       </View>
+    )}
+
       {userSubmit && (
-        <View style={styles.paragraph}>
-          <Text>You have successfully registered</Text>
-          <Text>Here are your info:</Text>
-          <Text>Username: {userData.username} </Text>
-          <Text>Password: {userData.password} </Text>
+      <View style={styles.resultBox}>
+          <Text style={styles.resultText}>Welcome</Text>
+          <Text>Username: {userSubmit.username} </Text>
+          <Text>Password: {userSubmit.password} </Text>
+          
+          <Button title="Edit" onPress={() => setUserSubmit(null)} />
         </View>
       )}
     </SafeAreaView>
@@ -58,13 +65,27 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
+    justifyContent: 'center', 
   },
   paragraph: {
-    margin: 24,
+    margin: 10,
     fontSize: 18,
     fontWeight: 'bold',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5
   },
+  resultBox: {
+    padding: 20,
+    backgroundColor: '#d4edda',
+    borderRadius: 10
+  },
+  resultText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'green',
+    marginBottom: 10
+  }
 });
