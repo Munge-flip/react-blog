@@ -1,94 +1,85 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export default function App() {
-  const [userInfo, setUserInfo] = useState ({
-    username: '',
-    password: ''
-  })
+  const [userData, setUserData] = useState ({
+    email: '',
+    password: '',
+  });
   const [userSubmitted, setUserSubmitted] = useState(null);
 
   const handleUserInput = (id, data) => {
-    setUserInfo({...userInfo, [id]: data});
+    setUserData({...userData, [id]: data})
   }
-  const handleUserSubmission = () => {
-    setUserSubmitted(userInfo);
+  const userSubmission = () => {
+    setUserSubmitted(userData);
   }
 
-  const isUserValid = userInfo.username.length >= 8;
-  const isPasswordValid = userInfo.password.length >= 8;
-  const canSubmit = isUserValid && isPasswordValid;
-  const isPasswordEmpty = userInfo.password === '';
-  const maxChar = 150;
-  let strengthText = '';
-  let strengthColor = 'gray';
+  const isEmailValid = userData.email.includes('@') && userData.email.length >= 8;
+  const isPasswordValid = userData.password.length >= 8;
+  const canSubmit = isEmailValid && isPasswordValid;
+  const isPasswordEmpty = userData.password === '';
+  let strenghtText = '';
+  let strenghtColor = 'gray';
 
-  if (userInfo.password.length > 0) {
-    if (userInfo.password.length < 5) {
-      strengthText = 'Weak';
-      strengthColor = 'red';
-    } else if (userInfo.password.length < 8) {
-      strengthText = 'Fair';
-      strengthColor = 'orange';
+  if (userData.password.length > 0) {
+    if (userData.password.length < 5) {
+      strenghtText = 'Weak';
+      strenghtColor = 'red';
+    } else if (userData.password.length < 8) {
+      strenghtText = 'Fair';
+      strenghtColor = 'orange';
     } else {
-      strengthText = 'Strong';
-      strengthColor = 'green';
+      strenghtText = 'Strong';
+      strenghtColor = 'green';
     }
   }
-  const curChar = userInfo.username.length;
   return (
-    <SafeAreaView>
-    {!userSubmitted && (
-      <View style={styles.container}>
-        <TextInput style={styles.paragraph} 
-          placeholder="Username: "
-          value={userInfo.username}
-          onChangeText={(text) => handleUserInput('username', text)}
-        />
-        {!isUserValid && userInfo.username.length > 0 && (
-          <Text>Need 8 characters</Text>
-        )}
-        <Text> {curChar} / {maxChar} </Text>
-        <TextInput style={[styles.paragraph, isPasswordEmpty ? styles.emptyBox : styles.filledBox
-            ]}
-          placeholder="Password: "
-          value={userInfo.password}
-          onChangeText={(text) => handleUserInput('password', text)}
-          
-        />
-        {!isPasswordValid && userInfo.password.length > 0 && (
-          <Text style={{ color: strengthColor, marginLeft: 24, fontWeight: 'bold' }}>
-              Strength: {strengthText}
-            </Text>
-        )}
-        <Button 
-          title="Submit"
-          onPress={handleUserSubmission}
-          disabled={!canSubmit}
-        />
-      </View>
-    )}
-      {userSubmitted && (
-        <Text>Welcome</Text>
+    <View style={styles.container}>
+      {!userSubmitted && (
+        <View>
+      <TextInput style={styles.paragraph} placeholder="Email: " value={userData.email} onChangeText={(text) => handleUserInput('email', text)} />
+      {!isEmailValid && userData.email.length > 0 && (
+        <Text>Need an @ and a minimum of 8 characters</Text>
       )}
-    </SafeAreaView>
+      <TextInput style={[styles.paragraph, isPasswordEmpty ? styles.emptyBox : styles.filledBox]} placeholder="Password: " value={userData.password} onChangeText={(text) => handleUserInput('password', text)} secureTextEntry={true} />
+      {!isPasswordValid && userData.password.length > 0 && (
+        <Text style={{ color: strenghtColor}}>
+          Strength: {strenghtText}
+        </Text>
+      )}
+      <Button title="Submit" onPress={userSubmission} disabled={!canSubmit} />
+        </View>
+      )}
+
+      {userSubmitted && (
+      <View style={styles.resultBox}>
+        <Text>Weclome</Text>
+        <Text>Email: {userData.email} </Text>
+        <Text>Password: {userData.password} </Text>
+        <Button title="Edit" onPress={() => setUserSubmitted(null)} />
+      </View>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
-    justifyContent: 'center'
   },
   paragraph: {
-    marginHorizontal: 24,
-    marginTop: 15,
-    marginBottom: 5,
-    padding: 10,
+    margin: 24,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  resultBox: {
+    padding: 20,
+    backgroundColor: 'yellow',
+    borderRadius: 10
   },
   emptyBox: {
     borderWidth: 2,
@@ -96,8 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   filledBox: {
-    borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'grey',
     borderRadius: 5
   }
 });
