@@ -1,17 +1,17 @@
-import { Text, View, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-export default function StyledButton({title, buttonColor = 'red', bgColor = 'gold', fontWeight = 'bold', fontSize = 16}) {
+export default function StyledButton({title, btnColor = 'gold', bgColor = 'maroon', fontWeight = 'bold', fontSize = 16}) {
   return (
-    <TouchableOpacity style={[styles.buttonBox, {backgroundColor: bgColor}]}>
-      <Text style={{color: buttonColor, fontWeight: fontWeight, fontSize: fontSize}}> {title} </Text>
+    <TouchableOpacity style={[styles.btn, {backgroundColor: bgColor}]}>
+      <Text style={{color: btnColor, fontSize: fontSize, fontWeight: fontWeight}}> {title} </Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonBox: {
-    padding: 12,
-    borderRadius: 10,
+  btn: {
+    padding: 20,
     alignItems: 'center',
+    borderRadius: 10,
   }
 });
