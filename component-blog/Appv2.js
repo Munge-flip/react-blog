@@ -1,28 +1,30 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 
-// You can import supported modules from npm
 import { Card } from 'react-native-paper';
 
-import ContactItem from './components/ContactItem';
+import ContactItems from './components/ContactItems';
 
 export default function App() {
-  const myContactsList = [
-    { id: '1', name: 'Gian Carlo C. Gonzales', phone: '0912-123-123', category: 'Student' },
-    { id: '2', name: 'Ada Lovelace', phone: '0999-888-7777', category: 'Programmer' },
-    { id: '3', name: 'Grace Hopper', phone: '0911-222-3333', category: 'Teacher' }
-  ];
+  const [contacts, setContacts] = useState([
+    {id: '1', name: 'Yan', phone: '0912 123 123', category: 'carry'},
+    {id: '2', name: 'ol', phone: '0970 921 313', category: 'support'},
+    {id: '3', name: 'sss', phone: '0931 238 312', category: 'mid'},
+    {id: '4', name: 'wqe', phone: '0931 238 312', category: 'offlane'},
+    {id: '5', name: 'wqes', phone: '0931 238 312', category: 'hard support'},
+  ]);
+  const handleDelete = (idToRemove) => {
+    const updatedList = contacts.filter((person) => person.id !== idToRemove);
+    
+    setContacts(updatedList);
+  };
   return (
     <ScrollView style={styles.container}>
-      
-      {myContactsList.map((person) => (
-        
-        <ContactItem 
-          key={person.id}
-          contact={person}
-        />
-        
-      ))}
-
+      <Card>
+        {contacts.map((person) => (
+         <ContactItems key={person.name} contact={person} onCall={() => alert(`Calling ${person.name}`)} onDelete={() => handleDelete(person.id)} />
+        ))}
+      </Card>
     </ScrollView>
   );
 }
@@ -30,7 +32,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
   },

@@ -1,24 +1,32 @@
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
 import { Card } from 'react-native-paper';
 
-import CustomeText from './CustomeText';
+import CustomText from './CustomText';
 import StyledButton from './StyledButton';
 
-export default function ContactItem({contact, onCall}) {
+export default function ContactItems({contact, onCall, onDelete}) {
   return (
-    <Card style={styles.card}>
-        <CustomeText> {contact.name} </CustomeText>
-        <CustomeText> {contact.phone} </CustomeText>
-        <CustomeText> {contact.category} </CustomeText>
-
-        <StyledButton title="Call Contact" onPress={onCall} />
-    </Card>
+    <View style={styles.container}>
+      <Card>
+        <CustomText>Name: {contact.name} </CustomText>
+        <CustomText>Phone: {contact.phone} </CustomText>
+        <CustomText>Role: {contact.category} </CustomText>
+        <StyledButton title="Contact" onPress={onCall} />
+        <StyledButton title="Delete" bgColor="red" onPress={onDelete} />
+      </Card>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-card: {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 2,
     margin: 10,
-    padding: 5,
-  }
+  },
 });
