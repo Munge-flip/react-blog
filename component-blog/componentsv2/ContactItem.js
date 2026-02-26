@@ -11,9 +11,9 @@ export default function ContactItems({contact, onCall, onDelete}) {
       <Card>
         <CustomText>Name: {contact.name} </CustomText>
         <CustomText>Phone: {contact.phone} </CustomText>
-        <CustomText>Role: {contact.category} </CustomText>
-        <StyledButton title="Contact" onPress={onCall} />
-        <StyledButton title="Delete" bgColor="red" onPress={onDelete} />
+        <CustomText>Category: {contact.category} </CustomText>
+        <StyledButton title="Contact Person" onPress={onCall} />
+        <StyledButton bgColor="red" title="Delete Contact" onPress={onDelete} />
       </Card>
     </View>
   );
@@ -22,11 +22,10 @@ export default function ContactItems({contact, onCall, onDelete}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
-    borderRadius: 10,
-    borderWidth: 2,
     margin: 10,
+    borderWidth: 2,
+    borderRadius: 10,
   },
 });
